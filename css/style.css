@@ -251,3 +251,121 @@ select.form-control{appearance:none;background-image:url("data:image/svg+xml,%3C
 .file-upload input[type="file"]{display:none}
 .file-preview{margin-top:12px}
 .file-preview img{max-height:150px;border-radius:var(--radius-md);margin:0 auto}
+
+/* ===== CALENDAR SYSTEM ===== */
+.calendar-container {
+  background: var(--bg-card);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xl);
+  padding: 20px;
+  margin-bottom: 24px;
+}
+.calendar-month-selector {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 8px;
+}
+.calendar-day-label {
+  text-align: center;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--accent);
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border);
+}
+.calendar-cell {
+  aspect-ratio: 1;
+  min-height: 85px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: var(--transition);
+  cursor: pointer;
+  position: relative;
+}
+.calendar-cell:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: var(--border-accent);
+}
+.calendar-cell.active {
+  border-color: var(--accent);
+  background: rgba(230, 168, 23, 0.05);
+}
+.calendar-cell.disabled {
+  opacity: 0.15;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+.calendar-cell-num {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+.calendar-cell-events {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  overflow: hidden;
+  margin-top: 4px;
+}
+.calendar-event-badge {
+  font-size: 10px;
+  padding: 2px 6px;
+  border-radius: 4px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  max-width: 100%;
+  display: block;
+}
+.calendar-event-dots-container {
+  display: none;
+  gap: 3px;
+  justify-content: center;
+  margin-top: 4px;
+}
+.calendar-event-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+}
+.calendar-event-dot.rapat { background-color: var(--info); }
+.calendar-event-dot.acara { background-color: var(--warning); }
+.calendar-event-dot.kerja { background-color: var(--success); }
+.calendar-event-dot.kegiatan { background-color: var(--accent); }
+
+/* Day Details Panel */
+.day-details-panel {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xl);
+  padding: 20px;
+  margin-top: 20px;
+}
+
+@media(max-width:768px){
+  .calendar-cell {
+    min-height: 60px;
+    aspect-ratio: 1;
+    padding: 4px;
+    align-items: center;
+    justify-content: center;
+  }
+  .calendar-cell-events {
+    display: none;
+  }
+  .calendar-event-dots-container {
+    display: flex;
+  }
+}

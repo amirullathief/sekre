@@ -12,22 +12,53 @@
     <main class="main-content">
       <div class="items-header">
         <div class="page-header" style="margin-bottom:0">
-          <h1>Agenda</h1>
-          <p>Jadwal kegiatan & rapat mendatang</p>
+          <h1>Kalender KKN</h1>
+          <p>Agenda & Kegiatan Harian (1 Juni - 15 Juli 2026)</p>
         </div>
-        <button class="btn btn-primary" onclick="openModal()"><i class="fas fa-plus"></i> Tambah</button>
+        <div style="display:flex;gap:8px">
+          <button class="btn btn-primary" onclick="openModal()"><i class="fas fa-plus"></i> Tambah Agenda</button>
+        </div>
       </div>
-      <div class="tabs" id="agendaTabs">
-        <button class="tab active" onclick="filterAgenda('semua')">Semua</button>
-        <button class="tab" onclick="filterAgenda('upcoming')">Mendatang</button>
-        <button class="tab" onclick="filterAgenda('selesai')">Selesai</button>
+
+      <!-- Month Selector Tabs -->
+      <div class="tabs" id="monthTabs" style="margin-top: 20px;">
+        <button class="tab active" onclick="switchMonth(6)">Juni 2026</button>
+        <button class="tab" onclick="switchMonth(7)">Juli 2026</button>
       </div>
-      <div class="items-list" id="agendaList">
-        <div class="loading"><div class="spinner"></div></div>
+
+      <!-- Calendar Container -->
+      <div class="calendar-container">
+        <div class="calendar-grid">
+          <!-- Weekday Labels -->
+          <div class="calendar-day-label">Sen</div>
+          <div class="calendar-day-label">Sel</div>
+          <div class="calendar-day-label">Rab</div>
+          <div class="calendar-day-label">Kam</div>
+          <div class="calendar-day-label">Jum</div>
+          <div class="calendar-day-label">Sab</div>
+          <div class="calendar-day-label">Min</div>
+        </div>
+        <div class="calendar-grid" id="calendarCells" style="margin-top: 8px;">
+          <!-- Cells will be generated here -->
+          <div class="loading" style="grid-column: 1/-1;"><div class="spinner"></div></div>
+        </div>
       </div>
+
+      <!-- Day Details Panel -->
+      <div class="day-details-panel" id="dayDetailsPanel" style="display:none;">
+        <div class="items-header" style="border-bottom: 1px solid var(--border); padding-bottom: 10px; margin-bottom: 15px;">
+          <h3 id="detailsDateLabel">Jadwal pada 1 Juni 2026</h3>
+          <span class="badge badge-gold" id="detailsCountLabel">0 Acara</span>
+        </div>
+        <div class="items-list" id="dayDetailsList">
+          <!-- Daily items (kegiatan + agenda) will be loaded here -->
+        </div>
+      </div>
+
     </main>
   </div>
 
+  <!-- MODAL TAMBAH AGENDA -->
   <div class="modal-overlay" id="modal">
     <div class="modal">
       <div class="modal-header">
@@ -37,13 +68,13 @@
       <form onsubmit="saveAgenda(event)">
         <div class="modal-body">
           <div class="form-group">
-            <label>Judul</label>
+            <label>Judul Agenda</label>
             <input type="text" id="fJudul" class="form-control" required>
           </div>
           <div class="form-row">
             <div class="form-group">
               <label>Tanggal</label>
-              <input type="date" id="fTanggal" class="form-control" required>
+              <input type="date" id="fTanggal" class="form-control" min="2026-06-01" max="2026-07-15" required>
             </div>
             <div class="form-group">
               <label>Waktu</label>
