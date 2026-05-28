@@ -13,7 +13,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   loadStats();
   loadUpcomingAgenda();
-  loadRecentKegiatan();
 });
 
 async function loadStats() {
@@ -27,7 +26,7 @@ async function loadStats() {
 }
 
 async function loadUpcomingAgenda() {
-  const today = new Date().toISOString().split('T')[0];
+  const today = getLocalDateString();
   const { data } = await db.from('agenda')
     .select('*')
     .gte('tanggal', today)
@@ -58,31 +57,3 @@ async function loadUpcomingAgenda() {
   `).join('');
 }
 
-async function loadRecentKegiatan() {
-  const { data } = await db.from('kegiatan')
-    .select('*')
-    .order('created_at', { ascending: false })
-    .limit(5);
-
-  const container = document.getElementById('recentKegiatan');
-
-  if (!data || data.length === 0) {
-    container.innerHTML = `<div class="empty-state"><i class="fas fa-calendar-check"></i><h3>Belum ada kegiatan</h3></div>`;
-    return;
-  }
-
-  container.innerHTML = data.map(item => `
-    <div class="item-card">
-      <div class="item-card-header">
-        <div>
-          <div class="item-card-title">${item.judul}</div>
-          <div class="item-card-meta">
-            <span><i class="fas fa-calendar"></i>${formatDate(item.tanggal)}</span>
-            <span><i class="fas fa-user"></i>${item.author_name}</span>
-          </div>
-        </div>
-        <span class="badge badge-gold">${item.kategori || 'umum'}</span>
-      </div>
-    </div>
-  `).join('');
-}

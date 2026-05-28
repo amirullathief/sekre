@@ -4,7 +4,6 @@
 
 const NAV_ITEMS = [
   { id: 'dashboard', label: 'Dashboard', icon: 'fa-home', href: 'dashboard.html' },
-  { id: 'kegiatan', label: 'Kegiatan', icon: 'fa-calendar-check', href: 'kegiatan.html' },
   { id: 'agenda', label: 'Agenda', icon: 'fa-calendar-alt', href: 'agenda.html' },
   { id: 'notulen', label: 'Notulen', icon: 'fa-file-alt', href: 'notulen.html' },
   { id: 'surat', label: 'Surat', icon: 'fa-envelope', href: 'surat.html' },
@@ -12,7 +11,7 @@ const NAV_ITEMS = [
   { id: 'profil', label: 'Profil', icon: 'fa-user', href: 'profil.html' },
 ];
 
-const BOTTOM_NAV_IDS = ['dashboard', 'kegiatan', 'agenda', 'notulen', 'dokumentasi'];
+const BOTTOM_NAV_IDS = ['dashboard', 'agenda', 'notulen', 'dokumentasi'];
 
 function getActivePage() {
   const path = window.location.pathname.split('/').pop() || 'dashboard.html';

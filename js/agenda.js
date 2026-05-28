@@ -66,7 +66,7 @@ function renderCalendar() {
   // Render month days
   for (let day = 1; day <= totalDays; day++) {
     const cellDate = new Date(year, monthIdx, day);
-    const dateStr = cellDate.toISOString().split('T')[0];
+    const dateStr = getLocalDateString(cellDate);
     
     // Check KKN date bounds: June 1 (2026-06-01) to July 15 (2026-07-15)
     const isOutOfKKN = (currentMonth === 6 && day < 1) || (currentMonth === 7 && day > 15);
@@ -212,7 +212,7 @@ function openModal() {
   editingId = null;
   document.getElementById('modalTitle').textContent = 'Tambah Agenda';
   document.getElementById('fJudul').value = '';
-  document.getElementById('fTanggal').value = selectedDateStr || new Date().toISOString().split('T')[0];
+  document.getElementById('fTanggal').value = selectedDateStr || getLocalDateString();
   document.getElementById('fWaktu').value = '';
   document.getElementById('fJenis').value = 'rapat';
   document.getElementById('fStatus').value = 'upcoming';
