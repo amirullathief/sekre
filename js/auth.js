@@ -14,7 +14,25 @@ async function checkAuth() {
 
 // Ambil profil user dari tabel profiles
 async function getUserProfile(userId) {
-  const { data } = await db.from('profiles').select('*').eq('id', userId).single();
+  const { data, error } = await db.from('profiles').select('*').eq('id', userId).single();
+  if (error || !data) {
+    // Self-healing: jika profil tidak ditemukan, coba buat dari session user metadata
+    const { data: { session } } = await db.auth.getSession();
+    if (session && session.user && session.user.id === userId) {
+      const meta = session.user.user_metadata || {};
+      const newProfile = {
+        id: userId,
+        email: session.user.email,
+        nama: meta.nama || session.user.email.split('@')[0],
+        nim: meta.nim || '',
+        role: meta.role || 'ketua'
+      };
+      const { error: insertError } = await db.from('profiles').insert(newProfile);
+      if (!insertError) {
+        return newProfile;
+      }
+    }
+  }
   return data;
 }
 
