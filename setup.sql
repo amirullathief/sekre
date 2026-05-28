@@ -9,7 +9,7 @@ CREATE TABLE profiles (
   email TEXT NOT NULL,
   nama TEXT NOT NULL,
   nim TEXT,
-  role TEXT NOT NULL DEFAULT 'anggota' CHECK (role IN ('sekretaris', 'anggota')),
+  role TEXT NOT NULL DEFAULT 'ketua' CHECK (role IN ('sekretaris', 'ketua', 'divisi acara', 'bendahara', 'humas', 'Pubdekdok')),
   created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
