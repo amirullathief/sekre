@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - Sekretaris KKN</title>
+  <meta name="description" content="Sistem pencatatan Sekretaris KKN UIN SMDD Bukittinggi">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+  <div class="auth-page">
+    <div class="auth-card">
+      <div class="auth-logo">
+        <div class="logo-icon"><i class="fas fa-book-open"></i></div>
+        <h1>Sekretaris KKN</h1>
+        <p>UIN Sjech M. Djamil Djambek Bukittinggi</p>
+      </div>
+
+      <div class="auth-tabs">
+        <button class="auth-tab active" onclick="switchTab('login')">Masuk</button>
+        <button class="auth-tab" onclick="switchTab('register')">Daftar</button>
+      </div>
+
+      <!-- LOGIN FORM -->
+      <form id="loginForm" class="auth-form active" onsubmit="handleLogin(event)">
+        <div class="form-group">
+          <label for="loginEmail">Email</label>
+          <input type="email" id="loginEmail" class="form-control" placeholder="nama@email.com" required>
+        </div>
+        <div class="form-group">
+          <label for="loginPassword">Password</label>
+          <input type="password" id="loginPassword" class="form-control" placeholder="Masukkan password" required>
+        </div>
+        <button type="submit" class="btn btn-primary" style="width:100%" id="loginBtn">
+          <i class="fas fa-sign-in-alt"></i> Masuk
+        </button>
+      </form>
+
+      <!-- REGISTER FORM -->
+      <form id="registerForm" class="auth-form" onsubmit="handleRegister(event)">
+        <div class="form-group">
+          <label for="regName">Nama Lengkap</label>
+          <input type="text" id="regName" class="form-control" placeholder="Masukkan nama lengkap" required>
+        </div>
+        <div class="form-group">
+          <label for="regNim">NIM</label>
+          <input type="text" id="regNim" class="form-control" placeholder="Masukkan NIM">
+        </div>
+        <div class="form-group">
+          <label for="regEmail">Email</label>
+          <input type="email" id="regEmail" class="form-control" placeholder="nama@email.com" required>
+        </div>
+        <div class="form-group">
+          <label for="regPassword">Password</label>
+          <input type="password" id="regPassword" class="form-control" placeholder="Minimal 6 karakter" required minlength="6">
+        </div>
+        <div class="form-group">
+          <label for="regRole">Role</label>
+          <select id="regRole" class="form-control" required>
+            <option value="anggota">Anggota</option>
+            <option value="sekretaris">Sekretaris</option>
+          </select>
+        </div>
+        <button type="submit" class="btn btn-primary" style="width:100%" id="regBtn">
+          <i class="fas fa-user-plus"></i> Daftar
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/supabase-config.js"></script>
+
+  <script>
+    // Cek jika sudah login, redirect ke dashboard
+    (async () => {
+      const { data: { session } } = await db.auth.getSession();
+      if (session) window.location.href = 'dashboard.html';
+    })();
+
+    function switchTab(tab) {
+      document.querySelectorAll('.auth-tab').forEach((t, i) => {
+        t.classList.toggle('active', (tab === 'login' && i === 0) || (tab === 'register' && i === 1));
+      });
+      document.getElementById('loginForm').classList.toggle('active', tab === 'login');
+      document.getElementById('registerForm').classList.toggle('active', tab === 'register');
+    }
+
+    async function handleLogin(e) {
+      e.preventDefault();
+      const btn = document.getElementById('loginBtn');
+      btn.disabled = true;
+      btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Memproses...';
+
+      const email = document.getElementById('loginEmail').value;
+      const password = document.getElementById('loginPassword').value;
+
+      const { data, error } = await db.auth.signInWithPassword({ email, password });
+
+      if (error) {
+        alert('Login gagal: ' + error.message);
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Masuk';
+        return;
+      }
+      window.location.href = 'dashboard.html';
+    }
+
+    async function handleRegister(e) {
+      e.preventDefault();
+      const btn = document.getElementById('regBtn');
+      btn.disabled = true;
+      btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Memproses...';
+
+      const nama = document.getElementById('regName').value;
+      const nim = document.getElementById('regNim').value;
+      const email = document.getElementById('regEmail').value;
+      const password = document.getElementById('regPassword').value;
+      const role = document.getElementById('regRole').value;
+
+      const { data, error } = await db.auth.signUp({ email, password });
+
+      if (error) {
+        alert('Registrasi gagal: ' + error.message);
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fas fa-user-plus"></i> Daftar';
+        return;
+      }
+
+      // Simpan profil ke tabel profiles
+      if (data.user) {
+        await db.from('profiles').insert({
+          id: data.user.id,
+          email: email,
+          nama: nama,
+          nim: nim,
+          role: role
+        });
+      }
+
+      alert('Registrasi berhasil! Silakan login.');
+      switchTab('login');
+      btn.disabled = false;
+      btn.innerHTML = '<i class="fas fa-user-plus"></i> Daftar';
+    }
+  </script>
+</body>
+</html>

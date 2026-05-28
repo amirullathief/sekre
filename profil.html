@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Profil - Sekretaris KKN</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+  <div id="app" class="app">
+    <main class="main-content">
+      <div class="page-header">
+        <h1>Profil</h1>
+        <p>Informasi akun & anggota KKN</p>
+      </div>
+
+      <!-- User Info Card -->
+      <div class="glass-card" style="margin-bottom:24px">
+        <div style="display:flex;align-items:center;gap:16px;margin-bottom:16px">
+          <div class="member-avatar" style="width:56px;height:56px;font-size:22px" id="userAvatar">?</div>
+          <div>
+            <h2 style="font-size:18px" id="userName">-</h2>
+            <p style="font-size:13px;color:var(--text-secondary)" id="userEmail">-</p>
+          </div>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:12px;font-size:13px;color:var(--text-secondary)">
+          <span><i class="fas fa-id-card" style="color:var(--accent);margin-right:6px"></i>NIM: <span id="userNim">-</span></span>
+          <span id="userRoleBadge"></span>
+        </div>
+      </div>
+
+      <!-- Quick Links -->
+      <div class="glass-card" style="margin-bottom:24px">
+        <h3 style="font-size:16px;margin-bottom:14px">Menu Cepat</h3>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <a href="surat.html" class="nav-item"><i class="fas fa-envelope"></i><span>Surat Masuk & Keluar</span></a>
+          <a href="dokumentasi.html" class="nav-item"><i class="fas fa-camera"></i><span>Dokumentasi Foto</span></a>
+        </div>
+      </div>
+
+      <!-- Members List -->
+      <div class="items-header">
+        <h2>Anggota KKN</h2>
+      </div>
+      <div id="membersList" style="display:flex;flex-direction:column;gap:10px">
+        <div class="loading"><div class="spinner"></div></div>
+      </div>
+
+      <!-- Logout -->
+      <button class="btn btn-danger" style="margin-top:24px;width:100%" onclick="handleLogout()">
+        <i class="fas fa-sign-out-alt"></i> Keluar dari Akun
+      </button>
+    </main>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/supabase-config.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/nav.js"></script>
+  <script src="js/profil.js"></script>
+</body>
+</html>

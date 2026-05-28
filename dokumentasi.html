@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dokumentasi - Sekretaris KKN</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+  <div id="app" class="app">
+    <main class="main-content">
+      <div class="items-header">
+        <div class="page-header" style="margin-bottom:0">
+          <h1>Dokumentasi</h1>
+          <p>Galeri foto kegiatan KKN</p>
+        </div>
+        <button class="btn btn-primary" onclick="openModal()"><i class="fas fa-upload"></i> Upload Foto</button>
+      </div>
+      <div class="photo-grid" id="photoGrid">
+        <div class="loading" style="grid-column:1/-1"><div class="spinner"></div></div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Upload Modal -->
+  <div class="modal-overlay" id="modal">
+    <div class="modal">
+      <div class="modal-header">
+        <h2>Upload Dokumentasi</h2>
+        <button class="modal-close" onclick="closeModal()"><i class="fas fa-times"></i></button>
+      </div>
+      <form onsubmit="uploadDokumentasi(event)">
+        <div class="modal-body">
+          <div class="form-group">
+            <label>Judul</label>
+            <input type="text" id="fJudul" class="form-control" required>
+          </div>
+          <div class="form-group">
+            <label>Tanggal</label>
+            <input type="date" id="fTanggal" class="form-control" required>
+          </div>
+          <div class="form-group">
+            <label>Deskripsi</label>
+            <textarea id="fDeskripsi" class="form-control" rows="2"></textarea>
+          </div>
+          <div class="form-group">
+            <label>Foto</label>
+            <div class="file-upload" onclick="document.getElementById('fFoto').click()">
+              <i class="fas fa-cloud-upload-alt"></i>
+              <p>Klik untuk memilih foto</p>
+              <input type="file" id="fFoto" accept="image/*" required onchange="previewFile(this)">
+              <div class="file-preview" id="filePreview"></div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline" onclick="closeModal()">Batal</button>
+          <button type="submit" class="btn btn-primary" id="saveBtn">Upload</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Lightbox -->
+  <div class="lightbox" id="lightbox">
+    <button class="lightbox-close" onclick="closeLightbox()"><i class="fas fa-times"></i></button>
+    <img id="lightboxImg" src="" alt="">
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/supabase-config.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/nav.js"></script>
+  <script src="js/dokumentasi.js"></script>
+</body>
+</html>
